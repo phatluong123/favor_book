@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="top-section">
+        <h1 style="display:inline-block">Welcome,{{ user_name }}</h1>
+        <a style=" float:right; display:inline-block" href="/logout">log out</a>
+        <hr>
+    </div>
+    <form action="/books/add" method="post" class="add_book">
+        <div class="add_book" >
+            <h2>Add a Favorite book</h2>
+            <p>Title : <input style="" type="text" name="book_title" class="title" ></p>
+            {% with msg = get_flashed_messages(category_filter=['title']) %}
+                    {% if msg %}
+                        <p>{{msg[0]}}</p>
+                    {% endif %}
+                {% endwith %}
+            <p>Description : <input type="text" name="description" class="description"> </p>
+            {% with msg = get_flashed_messages(category_filter=['description']) %}
+                    {% if msg %}
+                        <p>{{msg[0]}}</p>
+                    {% endif %}
+                {% endwith %}
+            <button type="submit">Add</button>
+            <p><a href="/books/users">Show books u liked</a></p>
+        </div>
+    </form>
+    <div class="books">
+        <h2>All books</h2>
+        {% for book in books %}
+        <h3 style="margin-top: 10px"><a href="books/{{ book.book_id }}">{{ book.title }}</a> </h3>
+        <p style="margin: 0px">(Add by :{{ book.first_name }} {{ book.last_name }})</p>
+            {% if book.favor != this %}
+            <p style="margin: 0px; font-style: italic">This is your favor</p>
+            {% endif %}
+            {% if book.favor == this %}
+            <p style="margin: 0px ;font-style: italic"><a href="/books/{{ book.book_id  }}/add_to_favor">Add to your favor</a></p>
+            {% endif %}
+    {% endfor %}
+    </div>
+</body>
+</html>

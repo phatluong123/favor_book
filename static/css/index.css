@@ -1,0 +1,35 @@
+
+.registration{
+    display: inline-block;
+    width: 400px;
+    margin: 50px 0 0 200px;
+}
+
+.login {
+    display: inline-block;
+    vertical-align: top;
+    margin: 50px 0 0 200px;
+    width: 400px;
+}
+.alert-box{
+    color:red;
+}
+.add_book{
+    margin-left: 50px;
+    width: 400px;
+}
+.description{
+    height:50px;
+
+}
+.title{
+    margin-left: 50px;
+}
+.books{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 100px;
+}
+.add_book{
+    display: inline-block;
+}

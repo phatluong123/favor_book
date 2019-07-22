@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>All the book you like:</h1>
+    {% for book in books %}
+    <p><a href="/books/{{ book.book_id }}">{{ book.title }}</a> </p>
+    {% endfor %}
+</body>
+</html>

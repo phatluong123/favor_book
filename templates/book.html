@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="top-section">
+        <h1 style="display:inline-block">Welcome,{{ user[0].first_name }}</h1>
+        <a style=" float:right; display:inline-block" href="/logout">log out</a>
+        <hr>
+    </div>
+    <div style="margin-left: 100px; display: inline-block">
+        <h2>{{ book[0].title }}</h2>
+        <p>Add by : {{ book[0].first_name }} {{ book[0].last_name }}</p>
+        <p>Add on : {{ book[0].created_at }}</p>
+        <p>Last update: {{ book[0].updated_at }}</p>
+
+    {% if book[0].user_id == user[0].id %}
+    <form action="/books/update/description/{{ book[0].book_id }}" method="post" class="add_book">
+        <div >
+            <p>Description : <input type="text" name="description" class="description" placeholder="{{ book[0].description }}"> </p>
+            {% with msg = get_flashed_messages(category_filter=['description']) %}
+                    {% if msg %}
+                        <p>{{msg[0]}}</p>
+                    {% endif %}
+                {% endwith %}
+            <button type="submit">update</button>
+            <button><a href="/delete/{{ book[0].book_id }}">Delete</a></button>
+        </div>
+    </form>
+    {% endif %}
+    {% if book[0].user_id != user[0].id %}
+            <p>Description :{{ book[0].description }}</p>
+    {% endif %}
+    </div>
+    <div class="books">
+        <h2>Users Who like this books :</h2>
+        <ul>
+            {% for name in thisbook_favor_by %}
+                <li>{{ name.last_name }} {{ name.first_name }}
+                    {% if name.user_id == session.user_id %}
+                        <a href="/unfollow/{{ name.book_id }}">Un-following</a>
+                   {% endif %}
+                </li>
+            {% endfor %}
+            {% if count==0  %}
+                <a href="/books/{{ book[0].book_id  }}/add_to_favor">Add to your favor</a>
+            {% endif %}
+        </ul>
+    </div>
+    <a href="/books">Return</a>
+</body>
+</html>
